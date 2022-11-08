@@ -1,0 +1,12 @@
+[package]
+name = "near-nft"
+version = "0.1.0"
+edition = "2021"
+author = "Derzhavin Danila <derzhavin.danila@icloud.com>"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = "*"
+near-contract-standards = "*"
