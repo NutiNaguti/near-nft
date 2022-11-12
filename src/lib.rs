@@ -1,4 +1,6 @@
 use near_contract_standards::non_fungible_token::{
+    approval::NonFungibleTokenApproval,
+    core::NonFungibleTokenCore,
     metadata::{NFTContractMetadata, TokenMetadata, NFT_METADATA_SPEC},
     NonFungibleToken, Token, TokenId,
 };
@@ -64,9 +66,43 @@ impl Contract {
         self.token
             .internal_mint(token_id, receive_id, Some(token_metadata))
     }
-}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+    pub fn nft_token(&self, token_id: TokenId) -> Option<Token> {
+        self.token.nft_token(token_id)
+    }
+
+    #[payable]
+    pub fn nft_approve(&mut self, token_id: TokenId, account_id: AccountId, msg: Option<String>) {
+        self.token.nft_approve(token_id, account_id, msg);
+    }
+
+    pub fn nft_is_approved(
+        &self,
+        token_id: TokenId,
+        approved_account_id: AccountId,
+        approval_id: Option<u64>,
+    ) {
+        self.token
+            .nft_is_approved(token_id, approved_account_id, approval_id);
+    }
+
+    pub fn nft_revoke(&mut self, token_id: TokenId, account_id: AccountId) {
+        self.token.nft_revoke(token_id, account_id);
+    }
+
+    pub fn nft_revoke_all(&mut self, token_id: TokenId) {
+        self.token.nft_revoke_all(token_id);
+    }
+
+    #[payable]
+    pub fn nft_transfer(
+        &mut self,
+        receiver_id: AccountId,
+        token_id: TokenId,
+        approval_id: Option<u64>,
+        memo: Option<String>,
+    ) {
+        self.token
+            .nft_transfer(receiver_id, token_id, approval_id, memo)
+    }
 }
